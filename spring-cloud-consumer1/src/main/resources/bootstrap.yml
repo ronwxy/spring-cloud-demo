@@ -1,0 +1,32 @@
+server:
+  port: 8001
+
+#该文件必须命名为bootstrap，参考配置文件加载顺序
+spring:
+  application:
+    name: consumer-1 #与配置文件名保持一致
+  cloud:
+    config:
+      profile: prod
+      label: master  #分支
+      uri: http://localhost:9001/ #config server地址
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:6001/eureka/
+
+ribbon:   #全局配置， 如果针对某个服务则前面加服务名称
+  ConnectTimeout: 250 #请求连接的超时时间
+  ReadTimeout: 1500 #请求处理的超时时间
+  OkToRetryOnAllOperations: true #对所有操作请求都进行重试
+  MaxAutoRetriesNextServer: 2 #切换实例的重试次数
+  MaxAutoRetries: 1 #对当前实例的重试次数
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 5000 #熔断超时时间，Hystrix的超时时间大于Ribbon的超时时间，否则Hystrix超时后，该命令直接熔断，重试机制就没有意义了

@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: config-server
+  profiles:
+    active: dev
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://gitee.com/raywork/spring-cloud-config-demo/
+          searchPaths: config-rep/
+          username: raywork
+          password: sinron123
+
